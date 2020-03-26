@@ -1,0 +1,9 @@
+[0m[[0m[31merror[0m] [0m[0mC:\Users\wpick\git\meta-surf\src\main\scala\com\pickard\metasurf\scrapers\SurfForecastScraper.scala:41:43: type mismatch;[0m
+[0m[[0m[31merror[0m] [0m[0m found   : net.ruippeixotog.scalascraper.model.ElementQuery => String[0m
+[0m[[0m[31merror[0m] [0m[0m required: net.ruippeixotog.scalascraper.model.ElementQuery[0m
+[0m[[0m[31merror[0m] [0m[0m    val dataRows = doc >> elementList(attr(""))[0m
+[0m[[0m[31merror[0m] [0m[0m                                          ^[0m
+[0m[[0m[31merror[0m] [0m[0mC:\Users\wpick\git\meta-surf\src\main\scala\com\pickard\metasurf\scrapers\SurfForecastScraper.scala:42:13: not found: value srcTable[0m
+[0m[[0m[31merror[0m] [0m[0m    println(srcTable)[0m
+[0m[[0m[31merror[0m] [0m[0m            ^[0m
+[0m[[0m[31merror[0m] [0m[0mtwo errors found[0m
