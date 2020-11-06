@@ -11,8 +11,14 @@ class BreakDetailsWebsiteUrlCodec extends Codec[BreakDetailsWebsiteUrl] {
     writer.writeName("breakId")
     writer.writeString(value.breakId)
 
-    writer.writeName("url")
-    writer.writeString(value.url)
+    writer.writeName("infoUrl")
+    writer.writeString(value.infoUrl)
+
+    writer.writeName("forecastsUrl")
+    writer.writeString(value.forecastsUrl)
+
+    writer.writeName("extendedForecastUrl")
+    writer.writeString(value.extendedForecastUrl)
 
     writer.writeName("domain")
     writer.writeString(value.domain)
@@ -28,11 +34,18 @@ class BreakDetailsWebsiteUrlCodec extends Codec[BreakDetailsWebsiteUrl] {
 
     val id = reader.readObjectId("_id")
     val breakId = reader.readString("breakId")
-    val url = reader.readString("url")
+    val infoUrl = reader.readString("infoUrl")
+    val forecastsUrl = reader.readString("forecastsUrl")
+    val extendedForecastUrl = reader.readString("extendedForecastUrl")
+
     val domain = reader.readString("domain")
 
     reader.readEndDocument()
 
-    BreakDetailsWebsiteUrl(breakId, url, domain)
+    BreakDetailsWebsiteUrl(breakId, domain = domain,
+      infoUrl = infoUrl,
+      forecastsUrl = forecastsUrl,
+      extendedForecastUrl = extendedForecastUrl
+    )
   }
 }

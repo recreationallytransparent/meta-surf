@@ -58,8 +58,9 @@ object MatchMSWBreaks {
       case JArray(JObject(List(("type", JString("SPOT")), ("results", JArray(results)))) :: _) if results.nonEmpty =>
         val lookupResults = results.map(x => Serialization.read[MSWSpotLookupResult](compact(x)))
         val chosenResult = lookupResults.reduce((a,b) => if (a.score > b.score) a else b)
-        val websiteUrl = BreakDetailsWebsiteUrl(break.id, "https://magicseaweed.com" + chosenResult.URL, "magicseaweed.com")
-        Some(websiteUrl)
+        ???
+//        val websiteUrl = BreakDetailsWebsiteUrl(break.id, domain = "magicseaweed.com", infoUrl = )
+//        Some(websiteUrl)
       case x =>
         None
     }

@@ -4,7 +4,7 @@
 		module="metasurf_2.12"
 		revision="0.0.1"
 		status="integration"
-		publication="20200228134427"
+		publication="20200610100227"
 	>
 		<description>
 		MetaSurf
@@ -36,10 +36,14 @@
 		<dependency org="com.typesafe.akka" name="akka-http_2.12" rev="10.1.11" conf="compile->default(compile)"/>
 		<dependency org="com.typesafe.akka" name="akka-stream_2.12" rev="2.5.26" conf="compile->default(compile)"/>
 		<dependency org="com.typesafe.akka" name="akka-http-spray-json_2.12" rev="10.1.11" conf="compile->default(compile)"/>
+		<dependency org="org.json4s" name="json4s-native_2.12" rev="latest.release" conf="compile->default(compile)"/>
 		<dependency org="org.json4s" name="json4s-jackson_2.12" rev="latest.release" conf="compile->default(compile)"/>
 		<dependency org="com.github.nikita-volkov" name="sext" rev="0.2.4" conf="compile->default(compile)"/>
 		<dependency org="org.mongodb.scala" name="mongo-scala-driver_2.12" rev="2.8.0" conf="compile->default(compile)"/>
 		<dependency org="org.slf4j" name="slf4j-simple" rev="1.7.30" conf="compile->default(compile)"/>
+		<dependency org="org.rogach" name="scallop_2.12" rev="3.4.0" conf="compile->default(compile)"/>
+		<dependency org="ch.qos.logback" name="logback-classic" rev="1.2.3" conf="compile->default(compile)"/>
+		<dependency org="com.typesafe.scala-logging" name="scala-logging_2.12" rev="3.9.2" conf="compile->default(compile)"/>
 		<dependency org="org.scalactic" name="scalactic_2.12" rev="3.0.8" conf="compile->default(compile)"/>
 		<dependency org="org.scalatest" name="scalatest_2.12" rev="3.0.8" conf="test->default(compile)"/>
 	</dependencies>

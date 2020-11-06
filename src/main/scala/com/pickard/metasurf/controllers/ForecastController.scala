@@ -3,6 +3,7 @@ package com.pickard.metasurf.controllers
 import com.pickard.metasurf.Entities.{BreakDetailsWebsiteUrl, BreakForecast, MetaForecast}
 import com.pickard.metasurf.db.MongoDatabase
 import com.pickard.metasurf.scrapers.SurfScraper
+import com.typesafe.scalalogging.LazyLogging
 import net.ruippeixotog.scalascraper.browser.JsoupBrowser
 import org.mongodb.scala.{FindObservable, MongoCollection}
 import org.mongodb.scala.model.Filters._
@@ -11,20 +12,22 @@ import scala.collection.immutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class ForecastController(browser: JsoupBrowser, mongoDB: MongoDatabase, scrapers: List[SurfScraper]) {
+class ForecastController(browser: JsoupBrowser, mongoDB: MongoDatabase, scrapers: List[SurfScraper]) extends LazyLogging {
   private val websiteUrls: MongoCollection[BreakDetailsWebsiteUrl] =
     mongoDB.getCollection[BreakDetailsWebsiteUrl]("break-details-website-urls")
 
   private val domainToScraper: Map[String, List[SurfScraper]] = scrapers.groupBy(_.domain)
 
   def forId(breakId: String): Future[Option[MetaForecast]] = {
+    logger.info(s"ForId: $breakId")
     val urls: FindObservable[BreakDetailsWebsiteUrl] = websiteUrls.find(equal("breakId", breakId))
 
     urls
       .toFuture()
       .flatMap(urls => {
         val futureForecasts = urls.map(url => Future {
-          lazy val doc = browser.get(url.url)
+          logger.info(s"url for forecast = $url")
+          lazy val doc = browser.get(url.extendedForecastUrl)
           val maybeForecasts: Option[List[(String, Either[Throwable, BreakForecast])]] =
             domainToScraper.find(_._1 == url.domain)
               .map({

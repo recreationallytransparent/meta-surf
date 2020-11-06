@@ -4,7 +4,7 @@
 		module="meta-surf-build"
 		revision="0.1.0-SNAPSHOT"
 		status="integration"
-		publication="20200217121300"
+		publication="20200327112337"
 		e:sbtVersion="1.0" e:scalaVersion="2.12"
 	>
 		<description>

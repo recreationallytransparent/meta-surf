@@ -2,7 +2,7 @@ package com.pickard.metasurf
 
 import com.pickard.metasurf.Entities.{Break, Direction}
 //import com.pickard.metasurf.db.InMemoryDatabase
-import com.pickard.metasurf.scrapers.{MagicSeaweedScraper, SurfForecastScraper}
+import com.pickard.metasurf.scrapers.MagicSeaweedScraper
 import net.ruippeixotog.scalascraper.browser.JsoupBrowser
 
 object Main {

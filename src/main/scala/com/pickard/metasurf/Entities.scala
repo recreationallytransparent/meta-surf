@@ -38,6 +38,7 @@ object Entities {
                    style: String,
                    bestSwell: Direction,
                    bestWind: Direction)
+  case class BreaksResponse(breaks: Iterable[Break])
 
   case class WaveDetails(swellHeightM: Double, swellDirection: Direction, period: Int)
 
@@ -53,7 +54,15 @@ object Entities {
 
   case class BreakForecast(breakId: String, forecast: List[BreakDetails])
 
-  case class BreakDetailsWebsiteUrl(breakId: String, url: String, domain: String)
+  case class BreakDetailsWebsiteUrl(breakId: String, infoUrl: String, domain: String, forecastsUrl: String, extendedForecastUrl: String)
+  case class BreakDetailsWebsiteUrlSearchResult(results: Iterable[BreakDetailsWebsiteUrl])
 
   case class MetaForecast(forecasts: List[(String, BreakForecast)])
+
+  case class SearchResults(query: String, breaks: List[Break])
+
+  case class Country(id: String, name: String)
+  case class Region(id: String, name: String)
+  case class CountryRegions(country: Country, regions: List[Region])
+  case class CountryRegionsResponse(countryRegions: List[CountryRegions])
 }

@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/MetaSurf.iml" filepath="$PROJECT_DIR$/.idea/modules/MetaSurf.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/meta-surf-build.iml" filepath="$PROJECT_DIR$/.idea/modules/meta-surf-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MetaSurf-build.iml" filepath="$PROJECT_DIR$/.idea/modules/MetaSurf-build.iml" />
     </modules>
   </component>
 </project>

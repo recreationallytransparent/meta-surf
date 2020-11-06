@@ -6,5 +6,5 @@ import org.bson.codecs.{Codec, DecoderContext, EncoderContext}
 import codecs._
 
 object MongoCodecs {
-  def codecs: List[Codec[_]] = new BreakCodec :: new BreakDetailsWebsiteUrlCodec :: Nil
+  def codecs: List[Codec[_]] = new BreakCodec :: new BreakDetailsWebsiteUrlCodec :: new CountryRegionsCodec :: Nil
 }

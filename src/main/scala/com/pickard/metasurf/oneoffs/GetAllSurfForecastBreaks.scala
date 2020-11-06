@@ -2,7 +2,8 @@ package com.pickard.metasurf.oneoffs
 
 import com.pickard.metasurf.Entities.{Break, BreakDetailsWebsiteUrl}
 import com.pickard.metasurf.db.MongoDatabase
-import com.pickard.metasurf.scrapers.SurfForecastScraper
+import com.pickard.metasurf.scrapers.JSoupDocumentProvider
+import com.pickard.metasurf.scrapers.surfforecast.SurfForecastScraper
 import net.ruippeixotog.scalascraper.browser.JsoupBrowser
 import net.ruippeixotog.scalascraper.dsl.DSL._
 import net.ruippeixotog.scalascraper.dsl.DSL.Extract._
@@ -21,17 +22,14 @@ object GetAllSurfForecastBreaks {
 
   case class BreakLookupResult(slug: String, name: String)
 
-  def main(args: Array[String]): Unit = {
-    val client = new JsoupBrowser()
-    val baseDoc = client.get("https://www.surf-forecast.com/")
-    val mongoClient = new MongoDatabase
-    val scraper = new SurfForecastScraper
+  def getSlugs(client: JsoupBrowser): Future[List[BreakLookupResult]] = {
+    val doc = client.get("https://www.surf-forecast.com/")
 
-    val countryIds = (baseDoc >> elementList("#country_id option")).map(_.attr("value"))
+    val countryIds = (doc >> elementList("#country_id option")).map(_.attr("value"))
 
     println(s"There are ${countryIds.length} countries to query")
 
-    val allBreakSlugsFuture = Future.sequence(countryIds.map(cid => {
+    Future.sequence(countryIds.map(cid => {
       Future {
         getRegions(client)(cid) match {
           case Left(regions) => regions.flatMap(r => getBreaks(client)(r.id))
@@ -40,8 +38,14 @@ object GetAllSurfForecastBreaks {
       }
     }))
       .map(_.flatten)
+  }
+  def main(args: Array[String]): Unit = {
+    val client = new JsoupBrowser()
+//    val baseDoc = client.get("https://www.surf-forecast.com/")
+    val mongoClient = new MongoDatabase
+    val scraper = new SurfForecastScraper(new JSoupDocumentProvider)
 
-    val allBreakSlugs = Await.result(allBreakSlugsFuture, 2.minutes)
+    val allBreakSlugs = Await.result(getSlugs(client), 5.minutes)
 
     println(s"There are ${allBreakSlugs.length} break slugs")
 
@@ -68,7 +72,11 @@ object GetAllSurfForecastBreaks {
             val insert =
               mongoClient.insert("surf-forecast-breaks", successes, ordered = false)
               .flatMap(_ => mongoClient.insert("break-details-website-urls", successes.map(b => {
-                BreakDetailsWebsiteUrl(b.id, detailsUrl(b), "surf-forecast.com")
+                BreakDetailsWebsiteUrl(b.id, domain = "surf-forecast.com",
+                  infoUrl = scraper.infoUrl(b.slug),
+                  forecastsUrl = scraper.forecastUrl(b.slug),
+                  extendedForecastUrl = scraper.extendedForecastsUrl(b.slug)
+                )
               }), ordered = false))
                 .toFuture
               .transform({

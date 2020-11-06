@@ -4,7 +4,7 @@
 		module="metasurf$sbt_2.12"
 		revision="0.0.1"
 		status="integration"
-		publication="20200305114315"
+		publication="20201106104009"
 	/>
 	<configurations>
 		<conf name="compile" visibility="public" description=""/>

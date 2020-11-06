@@ -19,8 +19,13 @@ import org.json4s.jackson.Serialization
 import scala.util.matching.Regex
 import scala.util._
 
-class MagicSeaweedScraper extends SurfScraper {
+class MagicSeaweedScraper(documentProvider: DocumentProvider) extends SurfScraper {
+  override def get(url: String): Document = documentProvider.get(url)
+
+  override def getCountryRegions: Either[Throwable, List[CountryRegions]] = ???
   override def domain: String = "magicseaweed.com"
+
+  override def extendedForecastsUrl(slug: String): String = forecastUrl(slug)
 
   override def getForecast(id: String, doc: Document): Either[Throwable, Entities.BreakForecast] = {
     val dataRows: List[Element] = (doc >> elementList("tr")).filter(_.hasAttr("data-timestamp"))
@@ -106,4 +111,10 @@ class MagicSeaweedScraper extends SurfScraper {
 
     BreakDetails(id, dt, score, WaveDetails(primarySwellHeight, primarySwellDirection, primarySwellPeriod), windDetails, None, None)
   }
+
+  override def baseUrl: String = "https://magicseaweed.com"
+
+  override def infoUrl(slug: String): String = s"https://magicseaweed.com/api/mdkey/search?limit=6&match=CONTAINS&&query=${slug.toLowerCase().split(" ").mkString("%20")}"
+
+  override def forecastUrl(slug: String): String = s"https://magicseaweed.com/api/mdkey/search?limit=6&match=CONTAINS&&query=${slug.toLowerCase().split(" ").mkString("%20")}"
 }
